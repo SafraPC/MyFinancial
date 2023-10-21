@@ -15,6 +15,7 @@ const theme = {
       softGreenLabel: '#006341',
       softYellowLabel: '#866904',
       inputFocus: '#10a00e',
+      disabledwhite: '#e1e3e6',
       gray: '#C4C4C4',
       text: '#5A5A5A',
    },
