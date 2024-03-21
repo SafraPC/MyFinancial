@@ -5,9 +5,13 @@ import {
    getBottomSpace,
 } from 'react-native-iphone-x-helper';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView.attrs({
+   contentContainerStyle: {
+      flexGrow: 1,
+   },
+})`
    padding-top: ${getStatusBarHeight()}px;
-   padding-bottom: ${getBottomSpace()}px;
+   padding-bottom: ${getBottomSpace() + 16}px;
    flex: 1;
    background-color: ${({ theme }) => theme.colors.primary};
 `;

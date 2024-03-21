@@ -1,26 +1,45 @@
-import { useState } from 'react';
-import { userTransactionsStore } from '../../stores/userTransactions';
-
-type ErrorTypes = 'hasntDataYet' | '';
+import { useCallback } from 'react';
+import {
+   CustomExpanseKey,
+   userTransactionsStore,
+} from '../../stores/userTransactions';
 
 export interface HomeControllerInterface {
-   error: ErrorTypes;
    salary: number;
-   fixedExpanses: {};
+   user: string;
+   expanses: CustomExpanseKey[];
+   setUser: (user: string) => void;
+   changeExpanses: (expanses: CustomExpanseKey, index: number) => void;
+   changeSalary: (salary: number) => void;
 }
 
 const HomeControler = (): HomeControllerInterface => {
-   const { fixedExpanses, salary } = userTransactionsStore();
-   const [error, setError] = useState<ErrorTypes>('');
+   const { expanses, salary, setExpanses, setSalary, setUser, user } =
+      userTransactionsStore();
 
-   if (!salary && error !== 'hasntDataYet') {
-      setError('hasntDataYet');
-   }
+   const changeExpanses = useCallback(
+      (expansesData: CustomExpanseKey, index: number) => {
+         const formattedExpanses = [...expanses];
+         formattedExpanses[index] = expansesData;
+         setExpanses(formattedExpanses);
+      },
+      [expanses, setExpanses]
+   );
+
+   const changeSalary = useCallback(
+      (salary: number) => {
+         setSalary(salary);
+      },
+      [salary, setSalary]
+   );
 
    return {
-      error,
+      expanses,
+      setUser,
+      user,
+      changeExpanses,
+      changeSalary,
       salary,
-      fixedExpanses,
    };
 };
 
