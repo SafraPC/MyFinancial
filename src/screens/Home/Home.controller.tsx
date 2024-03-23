@@ -5,16 +5,16 @@ import {
 } from '../../stores/userTransactions';
 
 export interface HomeControllerInterface {
-   salary: number;
    user: string;
    expanses: CustomExpanseKey[];
+   earnings: CustomExpanseKey[];
    setUser: (user: string) => void;
+   changeEarnings: (expanses: CustomExpanseKey, index: number) => void;
    changeExpanses: (expanses: CustomExpanseKey, index: number) => void;
-   changeSalary: (salary: number) => void;
 }
 
 const HomeControler = (): HomeControllerInterface => {
-   const { expanses, salary, setExpanses, setSalary, setUser, user } =
+   const { expanses, setExpanses, setUser, user, earnings, setEarnings } =
       userTransactionsStore();
 
    const changeExpanses = useCallback(
@@ -26,20 +26,22 @@ const HomeControler = (): HomeControllerInterface => {
       [expanses, setExpanses]
    );
 
-   const changeSalary = useCallback(
-      (salary: number) => {
-         setSalary(salary);
+   const changeEarnings = useCallback(
+      (expansesData: CustomExpanseKey, index: number) => {
+         const formattedEarnings = [...earnings];
+         formattedEarnings[index] = expansesData;
+         setEarnings(formattedEarnings);
       },
-      [salary, setSalary]
+      [expanses, setExpanses]
    );
 
    return {
+      changeEarnings,
+      earnings,
       expanses,
       setUser,
       user,
       changeExpanses,
-      changeSalary,
-      salary,
    };
 };
 
