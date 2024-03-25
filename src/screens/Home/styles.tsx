@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Label = styled.Text`
@@ -34,13 +35,14 @@ export const Separator = styled.View`
    width: 16px;
 `;
 
+const width = Dimensions.get('window').width;
+
 export const EmptyContainer = styled.View`
    justify-content: center;
    height: 100px;
-   width: 100%;
+   width: ${width - 32}px;
    background-color: ${({ theme }) => theme.colors.darkElements};
    border-radius: 8px;
-   margin-top: 16px;
    align-items: center;
 `;
 
