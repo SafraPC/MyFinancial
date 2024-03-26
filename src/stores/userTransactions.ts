@@ -1,43 +1,45 @@
 import { create } from 'zustand';
 
+export type CategoryType = 'Despesa' | 'Receita';
+
+export interface Category {
+   key: string;
+   color: string;
+   creditCard: string;
+   subcategory: string;
+}
+
 export interface CustomExpanseKey {
    key: string;
    value: number;
+   category?: Category;
 }
 
 export interface UserTransactionsStoreInterface {
    user: string;
-   expanses: CustomExpanseKey[];
    earnings: CustomExpanseKey[];
+   fixedExpanses: CustomExpanseKey[];
+   variableExpanses: CustomExpanseKey[];
    setUser: (user: string) => void;
-   setExpanses: (expanses: CustomExpanseKey[]) => void;
+   setVariableExpanses: (expanses: CustomExpanseKey[]) => void;
+   setFixedExpanses: (expanses: CustomExpanseKey[]) => void;
    setEarnings: (earnings: CustomExpanseKey[]) => void;
 }
 
 const defaultValues = {
    salary: 0,
-   earnings: [
-      {
-         key: 'Empresa 1',
-         value: 1000,
-      },
-      {
-         key: 'Empresa 2',
-         value: 1000,
-      },
-   ],
-   expanses: [
-      { key: 'Conta de água', value: 100 },
-      { key: 'Conta de luz', value: 350 },
-   ],
+   earnings: [],
+   fixedExpanses: [],
+   variableExpanses: [],
    user: '',
 };
 
 export const userTransactionsStore = create<UserTransactionsStoreInterface>(
    set => ({
       ...defaultValues,
+      setVariableExpanses: variableExpanses => set({ variableExpanses }),
+      setFixedExpanses: fixedExpanses => set({ fixedExpanses }),
       setEarnings: earnings => set({ earnings }),
-      setExpanses: expanses => set({ expanses }),
       setUser: user => set({ user }),
    })
 );

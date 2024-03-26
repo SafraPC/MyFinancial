@@ -18,12 +18,12 @@ interface Props extends ModalComponentProps {
    title: string;
 }
 
-export interface BottomSheetProps {
+export interface ModalSheetProps {
    open: () => void;
    close: () => void;
 }
 
-const BottomSheet = forwardRef<BottomSheetProps, Props>(
+const BottomSheet = forwardRef<ModalSheetProps, Props>(
    ({ title, children, ...rest }, ref) => {
       const { colors } = useTheme();
       const [visible, setVisible] = useState(false);

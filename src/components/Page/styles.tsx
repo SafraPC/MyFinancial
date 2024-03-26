@@ -18,5 +18,6 @@ export const Container = styled.ScrollView.attrs({
 
 export const Content = styled.View`
    flex: 1;
+   margin-bottom: 84px;
    padding: 16px;
 `;

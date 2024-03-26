@@ -6,11 +6,11 @@ import Field from './components/Field';
 import { formatMoney } from '../../utils/masks';
 import { CustomExpanseKey } from '../../stores/userTransactions';
 import List from './components/List';
-import { BottomSheetProps } from '../../components/BottomSheet';
-import ModalSheet from '../../components/Modal';
-import Modal from './components/Modal';
+import ModalSheet, { ModalSheetProps } from '../../components/Modal';
+import DeleteModal from './components/DeleteModal';
+import AddModal from './components/AddModal';
 
-export type SelectedKind = 'earning' | 'expanse';
+export type SelectedKind = 'earning' | 'variableExpanse' | 'fixedExpanse';
 
 export interface SelectedToDelete {
    item: CustomExpanseKey;
@@ -21,19 +21,27 @@ export interface SelectedToDelete {
 const sumValue = (acc: number, { value }: CustomExpanseKey) => acc + value;
 
 const HomeView: React.FC<HomeControllerInterface> = ({
-   expanses,
    user,
    earnings,
    removeEarning,
-   removeExpanse,
+   variableExpanses,
+   fixedExpanses,
+   removeFixedExpanses,
+   removeVariableExpanses,
+   addEarning,
+   addFixedExpanse,
+   addVariableExpanse,
 }) => {
    const navigation = useNavigation();
-   const bottomSheetRef = React.useRef<BottomSheetProps>(null);
+   const deleteModalRef = React.useRef<ModalSheetProps>(null);
+   const addModalRef = React.useRef<ModalSheetProps>(null);
    const [selectedToDelete, setSelectedToDelete] = useState<SelectedToDelete>({
       index: 0,
       item: { key: '', value: 0 },
       kind: 'earning',
    });
+
+   const [selectedToAdd, setSelectedToAdd] = useState<SelectedKind>();
 
    useEffect(() => {
       navigation.setOptions({
@@ -42,42 +50,101 @@ const HomeView: React.FC<HomeControllerInterface> = ({
    }, [user]);
 
    useEffect(() => {
-      if (!selectedToDelete.item.key) return;
-      bottomSheetRef.current?.open();
+      if (!selectedToDelete?.item?.key) return;
+      deleteModalRef.current?.open();
    }, [selectedToDelete]);
 
-   const totalExpanses = expanses?.reduce(sumValue, 0) || 0;
+   useEffect(() => {
+      if (!selectedAddOption?.title) return;
+      addModalRef.current?.open();
+   }, [selectedToAdd]);
+
+   const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
+   const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
    const salary = earnings?.reduce(sumValue, 0) || 0;
-   console.log(expanses, earnings);
+
    const { item: selectedItem, kind: selectedKind } = selectedToDelete;
+
+   const removeOption = {
+      earning: removeEarning,
+      fixedExpanse: removeFixedExpanses,
+      variableExpanse: removeVariableExpanses,
+   };
+
+   const addOption = {
+      earning: {
+         add: addEarning,
+         title: 'Adicionar Provento',
+      },
+      fixedExpanse: {
+         add: addFixedExpanse,
+         title: 'Adicionar Despesa Fixa',
+      },
+      variableExpanse: {
+         add: addVariableExpanse,
+         title: 'Adicionar Despesa Variável',
+      },
+   };
+
+   const selectedAddOption = addOption[selectedToAdd as SelectedKind];
+
+   const defaultListOptions = {
+      onSelectedToAdd: setSelectedToAdd,
+      onSelectedToDelete: setSelectedToDelete,
+   };
 
    return (
       <Page>
          <Field label="Salário" value={formatMoney(salary)} />
          <List
-            onSelectedToDelete={setSelectedToDelete}
+            {...defaultListOptions}
             data={earnings}
             kind="earning"
             emptyText="Você não possúi nenhum provento"
             title="Proventos"
          />
-         <Field label="Total de despezas" value={formatMoney(totalExpanses)} />
-         <List
-            onSelectedToDelete={setSelectedToDelete}
-            data={expanses}
-            kind="expanse"
-            emptyText="Você não possúi nenhuma despesa"
-            title="Despesas"
+
+         <Field
+            label="Total de despezas fixas"
+            value={formatMoney(totalFixedExpanses)}
          />
+         <List
+            {...defaultListOptions}
+            data={fixedExpanses}
+            kind="fixedExpanse"
+            emptyText="Você não possúi nenhuma despesa fixa"
+            title="Despesas Fixas"
+         />
+         <Field
+            label="Total de despezas variaveis"
+            value={formatMoney(totalVariableExpanses)}
+         />
+
+         <List
+            {...defaultListOptions}
+            data={variableExpanses}
+            kind="variableExpanse"
+            emptyText="Você não possúi nenhuma despesa variável"
+            title="Despesas Variáveis"
+         />
+
          <ModalSheet
             title={`Deseja realmente remover: ${selectedItem.key} ?`}
-            ref={bottomSheetRef}>
-            <Modal
+            ref={deleteModalRef}>
+            <DeleteModal
                item={selectedToDelete}
-               bottomSheetRef={bottomSheetRef}
-               handleDelete={
-                  selectedKind === 'earning' ? removeEarning : removeExpanse
-               }
+               modalsheetRef={deleteModalRef}
+               handleDelete={removeOption[selectedKind]}
+            />
+         </ModalSheet>
+
+         <ModalSheet
+            title={`Adicionar ${selectedAddOption?.title}`}
+            ref={addModalRef}>
+            <AddModal
+               setSelectedToAdd={setSelectedToAdd}
+               handleAdd={selectedAddOption?.add}
+               modalsheetRef={addModalRef}
             />
          </ModalSheet>
       </Page>

@@ -6,23 +6,36 @@ import {
 
 export interface HomeControllerInterface {
    user: string;
-   expanses: CustomExpanseKey[];
+   fixedExpanses: CustomExpanseKey[];
    earnings: CustomExpanseKey[];
+   variableExpanses: CustomExpanseKey[];
    setUser: (user: string) => void;
    removeEarning: (index: number) => void;
-   removeExpanse: (index: number) => void;
+   removeFixedExpanses: (index: number) => void;
+   removeVariableExpanses: (index: number) => void;
+   addEarning: (earning: CustomExpanseKey) => void;
+   addFixedExpanse: (fixedExpanse: CustomExpanseKey) => void;
+   addVariableExpanse: (variableExpanse: CustomExpanseKey) => void;
 }
 
 const HomeControler = (): HomeControllerInterface => {
-   const { expanses, setExpanses, setUser, user, earnings, setEarnings } =
-      userTransactionsStore();
+   const {
+      setUser,
+      user,
+      earnings,
+      setEarnings,
+      fixedExpanses,
+      setFixedExpanses,
+      setVariableExpanses,
+      variableExpanses,
+   } = userTransactionsStore();
 
-   const removeExpanse = useCallback(
+   const removeFixedExpanses = useCallback(
       (index: number) => {
-         const newExpanses = expanses.filter((_, i) => i !== index);
-         setExpanses(newExpanses);
+         const newExpanses = fixedExpanses.filter((_, i) => i !== index);
+         setFixedExpanses(newExpanses);
       },
-      [expanses, setExpanses]
+      [fixedExpanses, setFixedExpanses]
    );
 
    const removeEarning = useCallback(
@@ -30,16 +43,50 @@ const HomeControler = (): HomeControllerInterface => {
          const newEarnings = earnings.filter((_, i) => i !== index);
          setEarnings(newEarnings);
       },
-      [earnings, setExpanses]
+      [earnings, setEarnings]
+   );
+
+   const removeVariableExpanses = useCallback(
+      (index: number) => {
+         const newExpanses = variableExpanses.filter((_, i) => i !== index);
+         setVariableExpanses(newExpanses);
+      },
+      [variableExpanses, setVariableExpanses]
+   );
+
+   const addEarning = useCallback(
+      (earning: CustomExpanseKey) => {
+         setEarnings([...earnings, earning]);
+      },
+      [earnings, setEarnings]
+   );
+
+   const addFixedExpanse = useCallback(
+      (fixedExpanse: CustomExpanseKey) => {
+         setFixedExpanses([...fixedExpanses, fixedExpanse]);
+      },
+      [fixedExpanses, setFixedExpanses]
+   );
+
+   const addVariableExpanse = useCallback(
+      (variableExpanse: CustomExpanseKey) => {
+         setVariableExpanses([...variableExpanses, variableExpanse]);
+      },
+      [variableExpanses, setVariableExpanses]
    );
 
    return {
+      variableExpanses,
       removeEarning,
       earnings,
-      expanses,
       setUser,
       user,
-      removeExpanse,
+      fixedExpanses,
+      removeFixedExpanses,
+      removeVariableExpanses,
+      addEarning,
+      addFixedExpanse,
+      addVariableExpanse,
    };
 };
 

@@ -4,6 +4,8 @@ import { CustomExpanseKey } from '../../../../stores/userTransactions';
 import { EmptyContainer, EmptyText, Separator, Title } from '../../styles';
 import { Card } from '../Expanse';
 import { SelectedKind, SelectedToDelete } from '../../Home.view';
+import { IconContainer, Row } from './styles';
+import Icon from 'react-native-vector-icons/Feather';
 
 interface List {
    data: CustomExpanseKey[];
@@ -11,6 +13,7 @@ interface List {
    emptyText: string;
    kind: SelectedKind;
    onSelectedToDelete: (item: SelectedToDelete) => void;
+   onSelectedToAdd: (item: SelectedKind) => void;
 }
 
 const List: React.FC<List> = ({
@@ -19,15 +22,24 @@ const List: React.FC<List> = ({
    title,
    kind,
    onSelectedToDelete,
+   onSelectedToAdd,
 }) => {
    return (
       <View>
-         <Title>{title}</Title>
+         <Row>
+            <Title>{title}</Title>
+            <IconContainer
+               onPress={() => {
+                  onSelectedToAdd(kind);
+               }}>
+               <Icon name="plus" size={16} color="#fff" />
+            </IconContainer>
+         </Row>
          <FlatList
             data={data}
             style={{ marginBottom: 32 }}
             contentContainerStyle={{
-               marginTop: 16,
+               marginVertical: 16,
             }}
             horizontal
             ItemSeparatorComponent={() => <Separator />}
@@ -40,11 +52,11 @@ const List: React.FC<List> = ({
                   onSelectedToDelete={onSelectedToDelete}
                />
             )}
-            ListEmptyComponent={() => (
+            ListEmptyComponent={
                <EmptyContainer>
                   <EmptyText>{emptyText}</EmptyText>
                </EmptyContainer>
-            )}
+            }
          />
       </View>
    );

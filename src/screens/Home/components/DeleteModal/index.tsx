@@ -1,6 +1,5 @@
 import React from 'react';
 import { SelectedToDelete } from '../../Home.view';
-import { CustomExpanseKey } from '../../../../stores/userTransactions';
 import {
    Button,
    ButtonContainer,
@@ -9,26 +8,26 @@ import {
    Description,
    Separator,
 } from './styles';
-import { BottomSheetProps } from '../../../../components/BottomSheet';
+import { ModalSheetProps } from '../../../../components/BottomSheet';
 
 interface ModalProps {
    item: SelectedToDelete;
    handleDelete: (index: number) => void;
-   bottomSheetRef: React.RefObject<BottomSheetProps>;
+   modalsheetRef: React.RefObject<ModalSheetProps>;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const DeleteModal: React.FC<ModalProps> = ({
    item,
-   bottomSheetRef,
+   modalsheetRef,
    handleDelete,
 }) => {
    const handleClose = () => {
-      bottomSheetRef.current?.close();
+      modalsheetRef.current?.close();
    };
 
    const handleConfirm = () => {
       handleDelete(item.index);
-      bottomSheetRef.current?.close();
+      modalsheetRef.current?.close();
    };
 
    return (
@@ -51,4 +50,4 @@ const Modal: React.FC<ModalProps> = ({
    );
 };
 
-export default Modal;
+export default DeleteModal;
