@@ -41,7 +41,13 @@ const HomeView: React.FC<HomeControllerInterface> = ({
       kind: 'earning',
    });
 
-   const [selectedToAdd, setSelectedToAdd] = useState<SelectedKind>();
+   const [selectedToAdd, setSelectedToAdd] = useState<{
+      kind: SelectedKind;
+      isShowing: boolean;
+   }>({
+      kind: 'earning',
+      isShowing: false,
+   });
 
    useEffect(() => {
       navigation.setOptions({
@@ -55,7 +61,7 @@ const HomeView: React.FC<HomeControllerInterface> = ({
    }, [selectedToDelete]);
 
    useEffect(() => {
-      if (!selectedAddOption?.title) return;
+      if (!selectedToAdd?.isShowing) return;
       addModalRef.current?.open();
    }, [selectedToAdd]);
 
@@ -86,7 +92,7 @@ const HomeView: React.FC<HomeControllerInterface> = ({
       },
    };
 
-   const selectedAddOption = addOption[selectedToAdd as SelectedKind];
+   const selectedAddOption = addOption[selectedToAdd.kind as SelectedKind];
 
    const defaultListOptions = {
       onSelectedToAdd: setSelectedToAdd,
@@ -138,11 +144,8 @@ const HomeView: React.FC<HomeControllerInterface> = ({
             />
          </ModalSheet>
 
-         <ModalSheet
-            title={`Adicionar ${selectedAddOption?.title}`}
-            ref={addModalRef}>
+         <ModalSheet title={`${selectedAddOption?.title}`} ref={addModalRef}>
             <AddModal
-               setSelectedToAdd={setSelectedToAdd}
                handleAdd={selectedAddOption?.add}
                modalsheetRef={addModalRef}
             />

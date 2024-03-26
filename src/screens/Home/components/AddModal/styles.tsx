@@ -30,6 +30,7 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
    padding: 16px;
    border-radius: 8px;
    flex: 1;
+   justify-content: center;
    align-items: center;
 `;
 
@@ -37,4 +38,5 @@ export const ButtonLabel = styled.Text`
    color: ${({ theme }) => theme.colors.white};
    font-weight: bold;
    font-size: 16px;
+   text-align: center;
 `;

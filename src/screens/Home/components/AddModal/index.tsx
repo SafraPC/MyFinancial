@@ -9,39 +9,26 @@ import {
    Separator,
 } from './styles';
 import { Input } from '../../../../components/Input';
-import { SelectedKind } from '../../Home.view';
 
 interface ModalProps {
-   setSelectedToAdd: React.Dispatch<
-      React.SetStateAction<SelectedKind | undefined>
-   >;
    modalsheetRef: React.RefObject<ModalSheetProps>;
    handleAdd: (data: CustomExpanseKey) => void;
 }
 
-const AddModal: React.FC<ModalProps> = ({
-   handleAdd,
-   modalsheetRef,
-   setSelectedToAdd,
-}) => {
-   const resetValue = () => {
-      modalsheetRef.current?.close();
-      setSelectedToAdd(undefined);
-   };
-
+const AddModal: React.FC<ModalProps> = ({ handleAdd, modalsheetRef }) => {
    const handleSave = () => {
       handleAdd({ key: 'key', value: 0 });
-      resetValue();
+      modalsheetRef.current?.close();
    };
 
    const handleClose = () => {
-      resetValue();
+      modalsheetRef.current?.close();
    };
 
    return (
       <Container>
-         <Input title="Insira o nome" />
-         <Input title="Insira o valor" />
+         <Input title="Insira " required />
+         <Input title="Insira o valor" required />
          <ButtonContainer>
             <Button onPress={handleSave}>
                <ButtonLabel>Salvar</ButtonLabel>

@@ -13,7 +13,7 @@ interface List {
    emptyText: string;
    kind: SelectedKind;
    onSelectedToDelete: (item: SelectedToDelete) => void;
-   onSelectedToAdd: (item: SelectedKind) => void;
+   onSelectedToAdd: (item: { kind: SelectedKind; isShowing: boolean }) => void;
 }
 
 const List: React.FC<List> = ({
@@ -30,7 +30,10 @@ const List: React.FC<List> = ({
             <Title>{title}</Title>
             <IconContainer
                onPress={() => {
-                  onSelectedToAdd(kind);
+                  onSelectedToAdd({
+                     isShowing: true,
+                     kind,
+                  });
                }}>
                <Icon name="plus" size={16} color="#fff" />
             </IconContainer>

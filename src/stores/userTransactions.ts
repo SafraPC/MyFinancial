@@ -1,18 +1,16 @@
 import { create } from 'zustand';
+import { CategoryType, SubcategoryType } from './categories';
 
-export type CategoryType = 'Despesa' | 'Receita';
-
-export interface Category {
-   key: string;
-   color: string;
-   creditCard: string;
-   subcategory: string;
+export interface CategoryInterface {
+   category?: CategoryType;
+   creditCardName?: string;
+   subcategory?: SubcategoryType<CategoryType>;
 }
 
 export interface CustomExpanseKey {
    key: string;
    value: number;
-   category?: Category;
+   category?: CategoryInterface;
 }
 
 export interface UserTransactionsStoreInterface {
