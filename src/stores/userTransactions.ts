@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import {
    CategoryType,
    SubcategoryType,
-} from '../screens/Home/application/categories';
+} from '../screens/Home/application/categoriesTypes';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface CategoryInterface {
    category?: CategoryType;
@@ -35,12 +37,18 @@ const defaultValues = {
    user: '',
 };
 
-export const userTransactionsStore = create<UserTransactionsStoreInterface>(
-   set => ({
-      ...defaultValues,
-      setVariableExpanses: variableExpanses => set({ variableExpanses }),
-      setFixedExpanses: fixedExpanses => set({ fixedExpanses }),
-      setEarnings: earnings => set({ earnings }),
-      setUser: user => set({ user }),
-   })
+export const userTransactionsStore = create(
+   persist<UserTransactionsStoreInterface>(
+      set => ({
+         ...defaultValues,
+         setVariableExpanses: variableExpanses => set({ variableExpanses }),
+         setFixedExpanses: fixedExpanses => set({ fixedExpanses }),
+         setEarnings: earnings => set({ earnings }),
+         setUser: user => set({ user }),
+      }),
+      {
+         name: 'user-transactions-store',
+         storage: createJSONStorage(() => AsyncStorage),
+      }
+   )
 );
