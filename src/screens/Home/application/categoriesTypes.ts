@@ -26,6 +26,7 @@ type TransportCategory =
 type HealthCategory = 'Farmácia' | 'Plano de saúde' | 'Outros';
 
 type EducationCategory = 'Cursos' | 'Livros' | 'Material escolar' | 'Outros';
+
 type LeisureCategory = 'Viagem' | 'Bar' | 'Cinema' | 'Outros';
 
 type HousingCategory =
@@ -39,7 +40,6 @@ type HousingCategory =
 
 type OtherCategory = 'Outros';
 
-//create a type that will be the subcategory, which will be a union of all the subcategories
 export type SubcategoryType<T> = T extends 'Alimentação'
    ? FoodCategory
    : T extends 'Transporte'

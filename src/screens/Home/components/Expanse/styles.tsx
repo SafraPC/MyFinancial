@@ -6,20 +6,20 @@ export const Container = styled.View`
    justify-content: space-around;
    border-radius: 8px;
    flex: 1;
-   height: 100px;
    max-width: 230px;
    margin-right: 8px;
 `;
 
 export const Title = styled.Text`
    color: ${({ theme }) => theme.colors.white};
-   font-size: 16px;
+   font-size: 18px;
    font-weight: bold;
+   margin-bottom: 8px;
 `;
 
 export const Value = styled.Text`
    color: ${({ theme }) => theme.colors.white};
-   font-size: 16px;
+   font-size: 14px;
    font-weight: bold;
    margin-top: 8px;
 `;

@@ -1,9 +1,12 @@
 import { create } from 'zustand';
-import { CategoryType, SubcategoryType } from './categories';
+import {
+   CategoryType,
+   SubcategoryType,
+} from '../screens/Home/application/categories';
 
 export interface CategoryInterface {
    category?: CategoryType;
-   creditCardName?: string;
+   cardName?: string;
    subcategory?: SubcategoryType<CategoryType>;
 }
 

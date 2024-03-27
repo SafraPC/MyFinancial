@@ -58,13 +58,7 @@ const ModalSheet = forwardRef<ModalSheetProps, Props>(
                   </CloseButton>
                </Header>
 
-               <Content>
-                  <Scroll>
-                     <TouchableOpacity activeOpacity={1}>
-                        {children}
-                     </TouchableOpacity>
-                  </Scroll>
-               </Content>
+               <Content>{children}</Content>
             </Container>
          </Modal>
       );

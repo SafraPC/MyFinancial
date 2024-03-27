@@ -12,11 +12,11 @@ const Input: React.FC<InputProps> = ({ title, error, required, ...rest }) => {
    const [isFocused, setIsFocused] = useState(false);
    return (
       <Container>
-         {title && (
+         {title ? (
             <Label>
                {title} {required ? <RequiredText>*</RequiredText> : null}
             </Label>
-         )}
+         ) : null}
          <InputText
             {...rest}
             isError={!!error}

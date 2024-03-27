@@ -99,6 +99,8 @@ const HomeView: React.FC<HomeControllerInterface> = ({
       onSelectedToDelete: setSelectedToDelete,
    };
 
+   const totalExpanses = totalFixedExpanses + totalVariableExpanses;
+
    return (
       <Page>
          <Field label="Salário" value={formatMoney(salary)} />
@@ -121,6 +123,7 @@ const HomeView: React.FC<HomeControllerInterface> = ({
             emptyText="Você não possúi nenhuma despesa fixa"
             title="Despesas Fixas"
          />
+
          <Field
             label="Total de despezas variaveis"
             value={formatMoney(totalVariableExpanses)}
@@ -134,6 +137,8 @@ const HomeView: React.FC<HomeControllerInterface> = ({
             title="Despesas Variáveis"
          />
 
+         <Field label="Total de despezas" value={formatMoney(totalExpanses)} />
+
          <ModalSheet
             title={`Deseja realmente remover: ${selectedItem.key} ?`}
             ref={deleteModalRef}>
@@ -146,6 +151,7 @@ const HomeView: React.FC<HomeControllerInterface> = ({
 
          <ModalSheet title={`${selectedAddOption?.title}`} ref={addModalRef}>
             <AddModal
+               isEarning={selectedToAdd.kind === 'earning'}
                handleAdd={selectedAddOption?.add}
                modalsheetRef={addModalRef}
             />
