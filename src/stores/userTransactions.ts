@@ -7,9 +7,9 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface CategoryInterface {
-   category?: CategoryType;
+   category?: CategoryType | undefined;
    cardName?: string;
-   subcategory?: SubcategoryType<CategoryType>;
+   subcategory?: SubcategoryType<CategoryType> | undefined;
 }
 
 export interface CustomExpanseKey {
