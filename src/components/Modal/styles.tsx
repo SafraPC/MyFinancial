@@ -16,10 +16,12 @@ export const Scroll = styled.ScrollView.attrs({
    },
 })``;
 
-export const Container = styled.View`
+export const Container = styled.View<{ maxHeigth?: boolean }>`
    background: ${({ theme }) => theme.colors.primary};
    border-radius: 8px;
-   max-height: 90%;
+   max-height: 70%;
+   height: ${({ maxHeigth }) => (maxHeigth ? '70%' : 'auto')};
+   justify-content: center;
 `;
 
 export const Header = styled.View`

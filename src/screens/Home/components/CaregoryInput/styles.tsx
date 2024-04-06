@@ -5,7 +5,6 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-   margin-top: 16px;
    z-index: ${({ isFocused }) => (isFocused ? 1 : 0)};
 `;
 

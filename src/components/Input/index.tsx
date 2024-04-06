@@ -6,9 +6,18 @@ interface InputProps extends TextInputProps {
    title?: string;
    error?: string;
    required?: boolean;
+   onFocused?: () => void;
+   onBlured?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ title, error, required, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+   title,
+   error,
+   required,
+   onFocused,
+   onBlured,
+   ...rest
+}) => {
    const [isFocused, setIsFocused] = useState(false);
    return (
       <Container>
@@ -21,8 +30,14 @@ const Input: React.FC<InputProps> = ({ title, error, required, ...rest }) => {
             {...rest}
             isError={!!error}
             isFocused={isFocused}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={() => {
+               setIsFocused(true);
+               onFocused?.();
+            }}
+            onBlur={() => {
+               setIsFocused(false);
+               onBlured?.();
+            }}
          />
          {error && <ErrorText>{error}</ErrorText>}
       </Container>

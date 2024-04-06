@@ -8,6 +8,7 @@ import {
 } from '../../application/categories';
 import { Container, ErrorText, Label, RequiredText } from './styles';
 import { useTheme } from 'styled-components/native';
+import { Input } from '../../../../components/Input';
 
 interface AutoCompleteInputProps {
    title: string;
@@ -65,59 +66,34 @@ const AutocompleteInput: React.FC<AutoCompleteInputProps> = ({
       setIsFocused(false);
    }, []);
 
-   const lowerCaseItems = items.map(item => item.toLowerCase());
+   const RenderList = useCallback(() => {
+      if (!isFocused) return null;
+      return items.map((item, index) => (
+         <TouchableOpacity
+            key={index}
+            onPress={() => handleSelectItem(item)}
+            style={{
+               padding: 10,
+               backgroundColor: colors.white,
+               borderBottomWidth: 1,
+            }}>
+            <Text>{item}</Text>
+         </TouchableOpacity>
+      ));
+   }, [items, query, isFocused]);
 
    return (
       <Container isFocused={isFocused}>
-         {title ? (
-            <Label>
-               {title} {required ? <RequiredText>*</RequiredText> : null}
-            </Label>
-         ) : null}
-         <TouchableWithoutFeedback
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => {
-               setIsFocused(false);
-               if (lowerCaseItems.includes(query.toLowerCase())) {
-                  return;
-               }
-               onSelectedItem(query);
-            }}>
-            <Autocomplete
-               editable={disabled ? false : true}
-               style={{
-                  height: 48,
-                  backgroundColor: '#fff',
-                  borderRadius: 4,
-                  borderWidth: 2,
-                  borderColor: isError
-                     ? colors.darkRed
-                     : isFocused
-                     ? colors.inputFocus
-                     : colors.gray,
-               }}
-               hideResults={!isFocused}
-               data={items}
-               value={query}
-               defaultValue={query}
-               onChangeText={text => {
-                  setQuery(text);
-                  if (!isFocused) {
-                     setIsFocused(true);
-                  }
-               }}
-               placeholder={placeholder}
-               flatListProps={{
-                  keyExtractor: (_, index) => index.toString(),
-                  renderItem: ({ item }) => (
-                     <TouchableOpacity onPress={() => handleSelectItem(item)}>
-                        <Text>{item}</Text>
-                     </TouchableOpacity>
-                  ),
-               }}
-            />
-         </TouchableWithoutFeedback>
-         {error ? <ErrorText>{error}</ErrorText> : null}
+         <Input
+            onFocused={() => setIsFocused(true)}
+            title={title}
+            placeholder={placeholder}
+            required={required}
+            error={error}
+            onChangeText={setQuery}
+            value={query}
+         />
+         <RenderList />
       </Container>
    );
 };

@@ -8,7 +8,6 @@ import { CustomExpanseKey } from '../../stores/userTransactions';
 import List from './components/List';
 import ModalSheet, { ModalSheetProps } from '../../components/Modal';
 import DeleteModal from './components/DeleteModal';
-import AddModal from './components/AddModal';
 
 export type SelectedKind = 'earning' | 'variableExpanse' | 'fixedExpanse';
 
@@ -34,7 +33,6 @@ const HomeView: React.FC<HomeControllerInterface> = ({
 }) => {
    const navigation = useNavigation();
    const deleteModalRef = React.useRef<ModalSheetProps>(null);
-   const addModalRef = React.useRef<ModalSheetProps>(null);
    const [selectedToDelete, setSelectedToDelete] = useState<SelectedToDelete>({
       index: 0,
       item: { key: '', value: 0 },
@@ -62,7 +60,11 @@ const HomeView: React.FC<HomeControllerInterface> = ({
 
    useEffect(() => {
       if (!selectedToAdd?.isShowing) return;
-      addModalRef.current?.open();
+      navigation.navigate('createData', {
+         handleAdd: selectedAddOption.add,
+         isEarning: selectedToAdd.kind === 'earning',
+         selectedAddOption,
+      });
    }, [selectedToAdd]);
 
    const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
@@ -100,7 +102,6 @@ const HomeView: React.FC<HomeControllerInterface> = ({
    };
 
    const totalExpanses = totalFixedExpanses + totalVariableExpanses;
-
    return (
       <Page>
          <Field label="Salário" value={formatMoney(salary)} />
@@ -146,14 +147,6 @@ const HomeView: React.FC<HomeControllerInterface> = ({
                item={selectedToDelete}
                modalsheetRef={deleteModalRef}
                handleDelete={removeOption[selectedKind]}
-            />
-         </ModalSheet>
-
-         <ModalSheet title={`${selectedAddOption?.title}`} ref={addModalRef}>
-            <AddModal
-               isEarning={selectedToAdd.kind === 'earning'}
-               handleAdd={selectedAddOption?.add}
-               modalsheetRef={addModalRef}
             />
          </ModalSheet>
       </Page>

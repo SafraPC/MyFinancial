@@ -11,11 +11,11 @@ import {
    Title,
    CloseButton,
    ModalComponentProps,
-   Scroll,
 } from './styles';
 
 interface Props extends ModalComponentProps {
    title: string;
+   maxHeigth?: boolean;
 }
 
 export interface ModalSheetProps {
@@ -24,7 +24,7 @@ export interface ModalSheetProps {
 }
 
 const ModalSheet = forwardRef<ModalSheetProps, Props>(
-   ({ title, children, ...rest }, ref) => {
+   ({ title, children, maxHeigth, ...rest }, ref) => {
       const { colors } = useTheme();
       const [visible, setVisible] = useState(false);
 
@@ -50,7 +50,7 @@ const ModalSheet = forwardRef<ModalSheetProps, Props>(
             useNativeDriver
             onBackdropPress={close}
             {...rest}>
-            <Container>
+            <Container maxHeigth={maxHeigth}>
                <Header>
                   <Title>{title}</Title>
                   <CloseButton onPress={close}>
