@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Feather';
 import { useTheme } from 'styled-components';
 import {
    Modal,
@@ -11,6 +10,7 @@ import {
    Title,
    CloseButton,
    ModalComponentProps,
+   Scroll,
 } from './styles';
 
 interface Props extends ModalComponentProps {
@@ -54,11 +54,12 @@ const ModalSheet = forwardRef<ModalSheetProps, Props>(
                <Header>
                   <Title>{title}</Title>
                   <CloseButton onPress={close}>
-                     <Feather name="x" size={18} color={colors.primary} />
+                     <Icon name="x" size={18} color={colors.primary} />
                   </CloseButton>
                </Header>
-
-               <Content>{children}</Content>
+               <Scroll>
+                  <Content>{children}</Content>
+               </Scroll>
             </Container>
          </Modal>
       );

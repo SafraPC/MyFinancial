@@ -3,6 +3,7 @@ import {
    CustomExpanseKey,
    userTransactionsStore,
 } from '../../stores/userTransactions';
+import { useNavigation } from '@react-navigation/native';
 
 export interface HomeControllerInterface {
    user: string;
@@ -29,6 +30,8 @@ const HomeControler = (): HomeControllerInterface => {
       setVariableExpanses,
       variableExpanses,
    } = userTransactionsStore();
+
+   const navigation = useNavigation();
 
    const removeFixedExpanses = useCallback(
       (index: number) => {
@@ -57,6 +60,7 @@ const HomeControler = (): HomeControllerInterface => {
    const addEarning = useCallback(
       (earning: CustomExpanseKey) => {
          setEarnings([...earnings, earning]);
+         navigation.goBack();
       },
       [earnings, setEarnings]
    );
@@ -64,6 +68,7 @@ const HomeControler = (): HomeControllerInterface => {
    const addFixedExpanse = useCallback(
       (fixedExpanse: CustomExpanseKey) => {
          setFixedExpanses([...fixedExpanses, fixedExpanse]);
+         navigation.goBack();
       },
       [fixedExpanses, setFixedExpanses]
    );
@@ -71,6 +76,7 @@ const HomeControler = (): HomeControllerInterface => {
    const addVariableExpanse = useCallback(
       (variableExpanse: CustomExpanseKey) => {
          setVariableExpanses([...variableExpanses, variableExpanse]);
+         navigation.goBack();
       },
       [variableExpanses, setVariableExpanses]
    );

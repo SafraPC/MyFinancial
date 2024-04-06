@@ -6,7 +6,7 @@ export type ModalComponentProps = Omit<
    'isVisible' | 'onBackdropPress' | 'onBackdropPress'
 >;
 
-export const Modal = styled(RNModal)<ModalComponentProps>`
+export const Modal = styled(RNModal as any)<ModalComponentProps>`
    margin: 0;
 `;
 
@@ -21,7 +21,6 @@ export const Container = styled.View<{ maxHeigth?: boolean }>`
    border-radius: 8px;
    max-height: 70%;
    height: ${({ maxHeigth }) => (maxHeigth ? '70%' : 'auto')};
-   justify-content: center;
 `;
 
 export const Header = styled.View`

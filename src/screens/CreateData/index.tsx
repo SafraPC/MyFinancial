@@ -9,8 +9,9 @@ import { Input } from '../../components/Input';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { AppRoutes } from '../../navigation/types';
 import Page from '../../components/Page';
-import ModalSheet, { ModalSheetProps } from '../../components/Modal';
 import { TouchableOpacity } from 'react-native';
+import { Select } from '../../components/Select';
+import { categories, subcategories } from '../Home/application/categories';
 
 interface Errors {
    key: string;
@@ -31,11 +32,8 @@ const CreateData: React.FC = () => {
    const [subcategory, setSubcategory] = useState<
       SubcategoryType<CategoryType> | undefined
    >();
-   const [cardName, setCardName] = useState<string>('');
    const [errors, setErrors] = useState<Errors>(defaultErrors);
    const navigation = useNavigation();
-   const addModalRef = useRef<ModalSheetProps>(null);
-   const [modalFilter, setModalFilter] = useState<string>('');
 
    useEffect(() => {
       navigation.setOptions({
@@ -57,7 +55,6 @@ const CreateData: React.FC = () => {
          key,
          value: parseFloat(value.replace('R$', '').replace(',', '.')),
          category: {
-            cardName,
             category,
             subcategory,
          },
@@ -87,35 +84,26 @@ const CreateData: React.FC = () => {
                onChangeText={setValue}
                value={value}
             />
-            <Input
-               title="Nome do cartão"
-               placeholder="Ex: Nubank"
-               onChangeText={setCardName}
-               value={cardName}
+            <Select
+               data={categories}
+               onSelect={setCategory}
+               selected={category}
+               placeholder="Selecione a categoria"
+               title="Categoria"
             />
-            <TouchableOpacity
-               onPress={() => {
-                  addModalRef.current?.open();
-               }}>
-               <Input
-                  title="Categoria"
-                  placeholder="Selecione a categoria"
-                  editable={false}
+            {!isEarning && category ? (
+               <Select
+                  data={subcategories[category]}
+                  onSelect={setSubcategory}
+                  selected={subcategory}
+                  placeholder="Selecione a subcategoria"
+                  title="Subcategoria"
                />
-            </TouchableOpacity>
-            {!isEarning ? null : null}
+            ) : null}
             <ScreenSeparator />
             <Button onPress={handleSave}>
                <ButtonLabel>Salvar</ButtonLabel>
             </Button>
-            <ModalSheet title={selectedAddOption.title} ref={addModalRef}>
-               <Input
-                  title="Filtrar por nome"
-                  placeholder="Filtre pelo nome"
-                  onChangeText={setModalFilter}
-                  value={modalFilter}
-               />
-            </ModalSheet>
          </KeyboardAwareScrollView>
       </Page>
    );

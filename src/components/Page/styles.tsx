@@ -1,9 +1,6 @@
 import styled from 'styled-components/native';
 
-import {
-   getStatusBarHeight,
-   getBottomSpace,
-} from 'react-native-iphone-x-helper';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.ScrollView.attrs({
    contentContainerStyle: {
@@ -11,13 +8,11 @@ export const Container = styled.ScrollView.attrs({
    },
 })`
    padding-top: ${getStatusBarHeight()}px;
-   padding-bottom: ${getBottomSpace() + 16}px;
    flex: 1;
    background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Content = styled.View`
    flex: 1;
-   margin-bottom: 32px;
    padding: 16px;
 `;

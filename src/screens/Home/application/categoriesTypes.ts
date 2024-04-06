@@ -4,15 +4,9 @@ export type CategoryType =
    | 'Saúde'
    | 'Educação'
    | 'Lazer'
-   | 'Moradia'
-   | 'Outros';
+   | 'Moradia';
 
-type FoodCategory =
-   | 'Supermercado'
-   | 'Restaurante'
-   | 'Lanche'
-   | 'Delivery'
-   | 'Outros';
+type FoodCategory = 'Supermercado' | 'Restaurante' | 'Lanche' | 'Delivery';
 
 type TransportCategory =
    | 'Uber'
@@ -20,14 +14,13 @@ type TransportCategory =
    | 'Metrô'
    | 'Táxi'
    | 'Estacionamento'
-   | 'Combustível'
-   | 'Outros';
+   | 'Combustível';
 
-type HealthCategory = 'Farmácia' | 'Plano de saúde' | 'Outros';
+type HealthCategory = 'Farmácia' | 'Plano de saúde';
 
-type EducationCategory = 'Cursos' | 'Livros' | 'Material escolar' | 'Outros';
+type EducationCategory = 'Cursos' | 'Livros' | 'Material escolar';
 
-type LeisureCategory = 'Viagem' | 'Bar' | 'Cinema' | 'Outros';
+type LeisureCategory = 'Viagem' | 'Bar' | 'Cinema';
 
 type HousingCategory =
    | 'Aluguel'
@@ -35,10 +28,7 @@ type HousingCategory =
    | 'Água'
    | 'Luz'
    | 'Internet'
-   | 'Telefone'
-   | 'Outros';
-
-type OtherCategory = 'Outros';
+   | 'Telefone';
 
 export type SubcategoryType<T> = T extends 'Alimentação'
    ? FoodCategory
@@ -52,6 +42,4 @@ export type SubcategoryType<T> = T extends 'Alimentação'
    ? LeisureCategory
    : T extends 'Moradia'
    ? HousingCategory
-   : T extends 'Outros'
-   ? OtherCategory
    : never;

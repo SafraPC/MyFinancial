@@ -25,7 +25,6 @@ export const styles: BottomTabNavigationOptions = {
       opacity: 0.8,
       backgroundColor: 'black',
       borderTopWidth: 0,
-      position: 'absolute',
       left: 0,
       right: 0,
       bottom: 0,

@@ -50,7 +50,6 @@ const Card: React.FC<ExpanseProps> = ({
          </DeleteContainer>
          <Title>{item.key}</Title>
          <Value>R$ {formatMoney(item.value)}</Value>
-         <OptionalValue value={item?.category?.cardName} label="Cartão:" />
          <OptionalValue value={item?.category?.category} label="Categoria:" />
          <OptionalValue value={item?.category?.subcategory} label="Subcat..:" />
       </Container>

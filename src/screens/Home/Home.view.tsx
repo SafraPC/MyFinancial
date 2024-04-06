@@ -67,17 +67,7 @@ const HomeView: React.FC<HomeControllerInterface> = ({
       });
    }, [selectedToAdd]);
 
-   const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
-   const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
-   const salary = earnings?.reduce(sumValue, 0) || 0;
-
    const { item: selectedItem, kind: selectedKind } = selectedToDelete;
-
-   const removeOption = {
-      earning: removeEarning,
-      fixedExpanse: removeFixedExpanses,
-      variableExpanse: removeVariableExpanses,
-   };
 
    const addOption = {
       earning: {
@@ -100,6 +90,16 @@ const HomeView: React.FC<HomeControllerInterface> = ({
       onSelectedToAdd: setSelectedToAdd,
       onSelectedToDelete: setSelectedToDelete,
    };
+
+   const removeOption = {
+      earning: removeEarning,
+      fixedExpanse: removeFixedExpanses,
+      variableExpanse: removeVariableExpanses,
+   };
+
+   const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
+   const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
+   const salary = earnings?.reduce(sumValue, 0) || 0;
 
    const totalExpanses = totalFixedExpanses + totalVariableExpanses;
    return (

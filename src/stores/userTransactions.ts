@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface CategoryInterface {
    category?: CategoryType | undefined;
-   cardName?: string;
    subcategory?: SubcategoryType<CategoryType> | undefined;
 }
 

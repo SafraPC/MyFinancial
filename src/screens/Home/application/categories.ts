@@ -6,7 +6,6 @@ export const earningCategories = [
    'Plano de saúde',
    'Vale alimentação',
    'Vale transporte',
-   'Outros',
 ];
 
 export const categories: CategoryType[] = [
@@ -16,11 +15,10 @@ export const categories: CategoryType[] = [
    'Educação',
    'Lazer',
    'Moradia',
-   'Outros',
 ];
 
 export const subcategories = {
-   Alimentação: ['Supermercado', 'Restaurante', 'Lanche', 'Delivery', 'Outros'],
+   Alimentação: ['Supermercado', 'Restaurante', 'Lanche', 'Delivery'],
    Transporte: [
       'Uber',
       'Ônibus',
@@ -28,19 +26,9 @@ export const subcategories = {
       'Táxi',
       'Estacionamento',
       'Combustível',
-      'Outros',
    ],
-   Saúde: ['Farmácia', 'Plano de saúde', 'Outros'],
-   Educação: ['Cursos', 'Livros', 'Material escolar', 'Outros'],
-   Lazer: ['Viagem', 'Bar', 'Cinema', 'Outros'],
-   Moradia: [
-      'Aluguel',
-      'Condomínio',
-      'Água',
-      'Luz',
-      'Internet',
-      'Telefone',
-      'Outros',
-   ],
-   Outros: ['Outros'],
+   Saúde: ['Farmácia', 'Plano de saúde'],
+   Educação: ['Cursos', 'Livros', 'Material escolar'],
+   Lazer: ['Viagem', 'Bar', 'Cinema'],
+   Moradia: ['Aluguel', 'Condomínio', 'Água', 'Luz', 'Internet', 'Telefone'],
 };
