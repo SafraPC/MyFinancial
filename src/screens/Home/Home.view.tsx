@@ -100,8 +100,8 @@ const HomeView: React.FC<HomeControllerInterface> = ({
    const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
    const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
    const salary = earnings?.reduce(sumValue, 0) || 0;
-
    const totalExpanses = totalFixedExpanses + totalVariableExpanses;
+
    return (
       <Page>
          <Field label="Salário" value={formatMoney(salary)} />

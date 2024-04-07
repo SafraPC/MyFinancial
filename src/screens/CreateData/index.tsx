@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, ButtonLabel, Container, ScreenSeparator } from './styles';
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonLabel, ScreenSeparator } from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
    CategoryType,
@@ -9,7 +9,6 @@ import { Input } from '../../components/Input';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { AppRoutes } from '../../navigation/types';
 import Page from '../../components/Page';
-import { TouchableOpacity } from 'react-native';
 import { Select } from '../../components/Select';
 import { categories, subcategories } from '../Home/application/categories';
 

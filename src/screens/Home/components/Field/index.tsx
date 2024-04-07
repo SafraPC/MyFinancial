@@ -10,6 +10,7 @@ interface FieldProps {
 }
 
 const Field: React.FC<FieldProps> = ({ label, value, onPress }) => {
+   if (!value || String(value) === '0.00') return null;
    return (
       <>
          <Label>{label}</Label>

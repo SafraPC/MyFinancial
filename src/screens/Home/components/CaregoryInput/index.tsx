@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import Autocomplete from 'react-native-autocomplete-input';
+import { Text, TouchableOpacity } from 'react-native';
+import { useTheme } from 'styled-components/native';
+import { Input } from '../../../../components/Input';
 import {
    categories,
    earningCategories,
    subcategories,
 } from '../../application/categories';
-import { Container, ErrorText, Label, RequiredText } from './styles';
-import { useTheme } from 'styled-components/native';
-import { Input } from '../../../../components/Input';
+import { Container } from './styles';
 
 interface AutoCompleteInputProps {
    title: string;
@@ -68,18 +67,22 @@ const AutocompleteInput: React.FC<AutoCompleteInputProps> = ({
 
    const RenderList = useCallback(() => {
       if (!isFocused) return null;
-      return items.map((item, index) => (
-         <TouchableOpacity
-            key={index}
-            onPress={() => handleSelectItem(item)}
-            style={{
-               padding: 10,
-               backgroundColor: colors.white,
-               borderBottomWidth: 1,
-            }}>
-            <Text>{item}</Text>
-         </TouchableOpacity>
-      ));
+      return (
+         <>
+            {items.map((item, index) => (
+               <TouchableOpacity
+                  key={index}
+                  onPress={() => handleSelectItem(item)}
+                  style={{
+                     padding: 10,
+                     backgroundColor: colors.white,
+                     borderBottomWidth: 1,
+                  }}>
+                  <Text>{item}</Text>
+               </TouchableOpacity>
+            ))}
+         </>
+      );
    }, [items, query, isFocused]);
 
    return (

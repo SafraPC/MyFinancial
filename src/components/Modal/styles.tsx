@@ -6,7 +6,7 @@ export type ModalComponentProps = Omit<
    'isVisible' | 'onBackdropPress' | 'onBackdropPress'
 >;
 
-export const Modal = styled(RNModal as any)<ModalComponentProps>`
+export const Modal = styled(RNModal)<ModalComponentProps>`
    margin: 0;
 `;
 
