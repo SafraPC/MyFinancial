@@ -1,107 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { HomeControllerInterface } from './Home.controller';
 import Page from '../../components/Page';
-import { useNavigation } from '@react-navigation/native';
 import Field from './components/Field';
 import { formatMoney } from '../../utils/masks';
-import { CustomExpanseKey } from '../../stores/userTransactions';
 import List from './components/List';
-import ModalSheet, { ModalSheetProps } from '../../components/Modal';
+import ModalSheet from '../../components/Modal';
 import DeleteModal from './components/DeleteModal';
 
-export type SelectedKind = 'earning' | 'variableExpanse' | 'fixedExpanse';
-
-export interface SelectedToDelete {
-   item: CustomExpanseKey;
-   index: number;
-   kind: SelectedKind;
-}
-
-const sumValue = (acc: number, { value }: CustomExpanseKey) => acc + value;
-
 const HomeView: React.FC<HomeControllerInterface> = ({
-   user,
    earnings,
-   removeEarning,
    variableExpanses,
    fixedExpanses,
-   removeFixedExpanses,
-   removeVariableExpanses,
-   addEarning,
-   addFixedExpanse,
-   addVariableExpanse,
+   defaultListOptions,
+   removeOption,
+   salary,
+   totalExpanses,
+   totalFixedExpanses,
+   totalVariableExpanses,
+   deleteModalRef,
+   selectedToDelete,
 }) => {
-   const navigation = useNavigation();
-   const deleteModalRef = React.useRef<ModalSheetProps>(null);
-   const [selectedToDelete, setSelectedToDelete] = useState<SelectedToDelete>({
-      index: 0,
-      item: { key: '', value: 0 },
-      kind: 'earning',
-   });
-
-   const [selectedToAdd, setSelectedToAdd] = useState<{
-      kind: SelectedKind;
-      isShowing: boolean;
-   }>({
-      kind: 'earning',
-      isShowing: false,
-   });
-
-   useEffect(() => {
-      navigation.setOptions({
-         headerTitle: user && `Olá, ${user}!`,
-      });
-   }, [user]);
-
-   useEffect(() => {
-      if (!selectedToDelete?.item?.key) return;
-      deleteModalRef.current?.open();
-   }, [selectedToDelete]);
-
-   useEffect(() => {
-      if (!selectedToAdd?.isShowing) return;
-      navigation.navigate('createData', {
-         handleAdd: selectedAddOption.add,
-         isEarning: selectedToAdd.kind === 'earning',
-         selectedAddOption,
-      });
-   }, [selectedToAdd]);
-
-   const { item: selectedItem, kind: selectedKind } = selectedToDelete;
-
-   const addOption = {
-      earning: {
-         add: addEarning,
-         title: 'Adicionar Provento',
-      },
-      fixedExpanse: {
-         add: addFixedExpanse,
-         title: 'Adicionar Despesa Fixa',
-      },
-      variableExpanse: {
-         add: addVariableExpanse,
-         title: 'Adicionar Despesa Variável',
-      },
-   };
-
-   const selectedAddOption = addOption[selectedToAdd.kind as SelectedKind];
-
-   const defaultListOptions = {
-      onSelectedToAdd: setSelectedToAdd,
-      onSelectedToDelete: setSelectedToDelete,
-   };
-
-   const removeOption = {
-      earning: removeEarning,
-      fixedExpanse: removeFixedExpanses,
-      variableExpanse: removeVariableExpanses,
-   };
-
-   const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
-   const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
-   const salary = earnings?.reduce(sumValue, 0) || 0;
-   const totalExpanses = totalFixedExpanses + totalVariableExpanses;
-
    return (
       <Page>
          <Field label="Salário" value={formatMoney(salary)} />
@@ -138,15 +56,22 @@ const HomeView: React.FC<HomeControllerInterface> = ({
             title="Despesas Variáveis"
          />
 
-         <Field label="Total de despezas" value={formatMoney(totalExpanses)} />
+         {totalVariableExpanses > 0 && totalFixedExpanses > 0 ? (
+            <Field
+               label="Total de despezas"
+               value={formatMoney(totalExpanses)}
+            />
+         ) : null}
 
          <ModalSheet
-            title={`Deseja realmente remover: ${selectedItem.key} ?`}
+            title={`Deseja realmente remover: ${
+               selectedToDelete?.item?.key || ''
+            } ?`}
             ref={deleteModalRef}>
             <DeleteModal
                item={selectedToDelete}
                modalsheetRef={deleteModalRef}
-               handleDelete={removeOption[selectedKind]}
+               handleDelete={removeOption[selectedToDelete.kind]}
             />
          </ModalSheet>
       </Page>

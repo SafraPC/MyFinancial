@@ -1,35 +1,65 @@
-import { useCallback } from 'react';
-import {
-   CustomExpanseKey,
-   userTransactionsStore,
-} from '../../stores/userTransactions';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { CustomExpanseKey, transactionsStore } from '../../stores/tansactions';
 import { useNavigation } from '@react-navigation/native';
+import { ModalSheetProps } from '../../components/Modal';
+
+export type SelectedKind = 'earning' | 'variableExpanse' | 'fixedExpanse';
+
+export interface SelectedToDelete {
+   item: CustomExpanseKey;
+   index: number;
+   kind: SelectedKind;
+}
+
+export interface SelectedToAdd {
+   kind: SelectedKind;
+}
 
 export interface HomeControllerInterface {
-   user: string;
    fixedExpanses: CustomExpanseKey[];
    earnings: CustomExpanseKey[];
    variableExpanses: CustomExpanseKey[];
-   setUser: (user: string) => void;
-   removeEarning: (index: number) => void;
-   removeFixedExpanses: (index: number) => void;
-   removeVariableExpanses: (index: number) => void;
-   addEarning: (earning: CustomExpanseKey) => void;
-   addFixedExpanse: (fixedExpanse: CustomExpanseKey) => void;
-   addVariableExpanse: (variableExpanse: CustomExpanseKey) => void;
+   defaultListOptions: {
+      onSelectedToDelete: React.Dispatch<
+         React.SetStateAction<SelectedToDelete>
+      >;
+      handleAdd: (selectedToAdd: { kind: SelectedKind }) => void;
+   };
+   salary: number;
+   totalFixedExpanses: number;
+   totalVariableExpanses: number;
+   totalExpanses: number;
+   removeOption: {
+      earning: (index: number) => void;
+      fixedExpanse: (index: number) => void;
+      variableExpanse: (index: number) => void;
+   };
+   deleteModalRef: React.RefObject<ModalSheetProps>;
+   selectedToDelete: SelectedToDelete;
 }
+
+const defaultSelectedToDelete: SelectedToDelete = {
+   index: 0,
+   item: { key: '', value: 0 },
+   kind: 'earning',
+};
+
+const sumValue = (acc: number, { value }: CustomExpanseKey) => acc + value;
 
 const HomeControler = (): HomeControllerInterface => {
    const {
-      setUser,
-      user,
       earnings,
       setEarnings,
       fixedExpanses,
       setFixedExpanses,
       setVariableExpanses,
       variableExpanses,
-   } = userTransactionsStore();
+   } = transactionsStore();
+   const deleteModalRef = useRef<ModalSheetProps>(null);
+
+   const [selectedToDelete, setSelectedToDelete] = useState<SelectedToDelete>(
+      defaultSelectedToDelete
+   );
 
    const navigation = useNavigation();
 
@@ -81,18 +111,67 @@ const HomeControler = (): HomeControllerInterface => {
       [variableExpanses, setVariableExpanses]
    );
 
+   const handleAdd = useCallback(
+      (selectedToAdd: { kind: SelectedKind }) => {
+         const addOption = {
+            earning: {
+               add: addEarning,
+               title: 'Adicionar Provento',
+            },
+            fixedExpanse: {
+               add: addFixedExpanse,
+               title: 'Adicionar Despesa Fixa',
+            },
+            variableExpanse: {
+               add: addVariableExpanse,
+               title: 'Adicionar Despesa Variável',
+            },
+         };
+         const selectedAddOption =
+            addOption[selectedToAdd.kind as SelectedKind];
+
+         navigation.navigate('createData', {
+            handleAdd: selectedAddOption.add,
+            isEarning: selectedToAdd.kind === 'earning',
+            selectedAddOption,
+         });
+      },
+      [addEarning, addFixedExpanse, addVariableExpanse, navigation]
+   );
+
+   useEffect(() => {
+      if (!selectedToDelete?.item?.key) return;
+      deleteModalRef.current?.open();
+   }, [selectedToDelete]);
+
+   const defaultListOptions = {
+      handleAdd,
+      onSelectedToDelete: setSelectedToDelete,
+   };
+
+   const removeOption = {
+      earning: removeEarning,
+      fixedExpanse: removeFixedExpanses,
+      variableExpanse: removeVariableExpanses,
+   };
+
+   const totalFixedExpanses = fixedExpanses?.reduce(sumValue, 0) || 0;
+   const totalVariableExpanses = variableExpanses?.reduce(sumValue, 0) || 0;
+   const salary = earnings?.reduce(sumValue, 0) || 0;
+   const totalExpanses = totalFixedExpanses + totalVariableExpanses;
+
    return {
       variableExpanses,
-      removeEarning,
       earnings,
-      setUser,
-      user,
       fixedExpanses,
-      removeFixedExpanses,
-      removeVariableExpanses,
-      addEarning,
-      addFixedExpanse,
-      addVariableExpanse,
+      defaultListOptions,
+      removeOption,
+      salary,
+      totalExpanses,
+      totalFixedExpanses,
+      totalVariableExpanses,
+      deleteModalRef,
+      selectedToDelete,
    };
 };
 

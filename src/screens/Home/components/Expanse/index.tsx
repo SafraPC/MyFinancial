@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomExpanseKey } from '../../../../stores/userTransactions';
+import { CustomExpanseKey } from '../../../../stores/tansactions';
 import { Container, DeleteContainer, Title, Value } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { formatMoney } from '../../../../utils/masks';

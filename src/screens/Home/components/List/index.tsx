@@ -1,11 +1,11 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { CustomExpanseKey } from '../../../../stores/userTransactions';
+import { CustomExpanseKey } from '../../../../stores/tansactions';
 import { EmptyContainer, EmptyText, Separator, Title } from '../../styles';
 import { Card } from '../Expanse';
-import { SelectedKind, SelectedToDelete } from '../../Home.view';
 import { IconContainer, Row } from './styles';
 import Icon from 'react-native-vector-icons/Feather';
+import { SelectedKind, SelectedToDelete } from '../../Home.controller';
 
 interface List {
    data: CustomExpanseKey[];
@@ -13,7 +13,7 @@ interface List {
    emptyText: string;
    kind: SelectedKind;
    onSelectedToDelete: (item: SelectedToDelete) => void;
-   onSelectedToAdd: (item: { kind: SelectedKind; isShowing: boolean }) => void;
+   handleAdd: (selectedToAdd: { kind: SelectedKind }) => void;
 }
 
 const List: React.FC<List> = ({
@@ -22,19 +22,13 @@ const List: React.FC<List> = ({
    title,
    kind,
    onSelectedToDelete,
-   onSelectedToAdd,
+   handleAdd,
 }) => {
    return (
       <View>
          <Row>
             <Title>{title}</Title>
-            <IconContainer
-               onPress={() => {
-                  onSelectedToAdd({
-                     isShowing: true,
-                     kind,
-                  });
-               }}>
+            <IconContainer onPress={() => handleAdd({ kind })}>
                <Icon name="plus" size={16} color="#fff" />
             </IconContainer>
          </Row>

@@ -17,12 +17,10 @@ export interface CustomExpanseKey {
    category?: CategoryInterface;
 }
 
-export interface UserTransactionsStoreInterface {
-   user: string;
+export interface transactionsStoreInterface {
    earnings: CustomExpanseKey[];
    fixedExpanses: CustomExpanseKey[];
    variableExpanses: CustomExpanseKey[];
-   setUser: (user: string) => void;
    setVariableExpanses: (expanses: CustomExpanseKey[]) => void;
    setFixedExpanses: (expanses: CustomExpanseKey[]) => void;
    setEarnings: (earnings: CustomExpanseKey[]) => void;
@@ -36,14 +34,13 @@ const defaultValues = {
    user: '',
 };
 
-export const userTransactionsStore = create(
-   persist<UserTransactionsStoreInterface>(
+export const transactionsStore = create(
+   persist<transactionsStoreInterface>(
       set => ({
          ...defaultValues,
          setVariableExpanses: variableExpanses => set({ variableExpanses }),
          setFixedExpanses: fixedExpanses => set({ fixedExpanses }),
          setEarnings: earnings => set({ earnings }),
-         setUser: user => set({ user }),
       }),
       {
          name: 'user-transactions-store',

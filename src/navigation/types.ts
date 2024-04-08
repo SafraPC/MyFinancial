@@ -1,4 +1,4 @@
-import { CustomExpanseKey } from '../stores/userTransactions';
+import { CustomExpanseKey } from '../stores/tansactions';
 
 export type AppRoutes = {
    home: undefined;
