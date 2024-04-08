@@ -1,16 +1,16 @@
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Button, ButtonLabel, ScreenSeparator } from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AppRoutes } from '../../../../navigation/types';
 import {
    CategoryType,
    SubcategoryType,
-} from '../Home/application/categoriesTypes';
-import { Input } from '../../components/Input';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { AppRoutes } from '../../navigation/types';
-import Page from '../../components/Page';
-import { Select } from '../../components/Select';
-import { categories, subcategories } from '../Home/application/categories';
+} from '../../application/categoriesTypes';
+import Page from '../../../../components/Page';
+import { Input } from '../../../../components/Input';
+import { Select } from '../../../../components/Select';
+import { Button, ButtonLabel, ScreenSeparator } from './styles';
+import { categories, subcategories } from '../../application/categories';
 
 interface Errors {
    key: string;

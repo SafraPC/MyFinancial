@@ -1,25 +1,17 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home } from '../../screens/Home';
 import { defaultStackHeaderOptions } from '../../utils/defaultHeader';
-import { CreateData } from '../../screens/Home/screens/CreateData';
+import { Register } from '../../screens/Register';
+import { Vision } from '../../screens/Vision';
 
-const HomeStack = () => {
+const VisionStack = () => {
    const Stack = createNativeStackNavigator();
 
    return (
       <Stack.Navigator>
          <Stack.Screen
-            name="home"
-            component={Home}
-            options={{
-               title: '',
-               ...defaultStackHeaderOptions,
-            }}
-         />
-         <Stack.Screen
-            name="createData"
-            component={CreateData}
+            name="vision"
+            component={Vision}
             options={{
                title: '',
                ...defaultStackHeaderOptions,
@@ -29,4 +21,4 @@ const HomeStack = () => {
    );
 };
 
-export { HomeStack };
+export { VisionStack };
